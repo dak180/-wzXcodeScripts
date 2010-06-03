@@ -13,12 +13,12 @@ if [ -d "${destdata}" ]; then
         echo "Data directory is out of date or has local modifications; recopying"
         rm -rf "${destdata}"
         mkdir -p "${destdata}"
-        cp -af "${datadir}/" "${destdata}/"
+        cp -pPRf "${datadir}/" "${destdata}/"
         exit 0
     fi
 else
     mkdir -p "${destdata}"
-    cp -af "${datadir}/" "${destdata}/"
+    cp -pPRf "${datadir}/" "${destdata}/"
 fi
 
 exit 0
