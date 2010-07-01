@@ -6,3 +6,5 @@ MD5Sum="17d495f6ab3921e00096895cab786462"
 
 configs/FetchPrebuilt.sh "${DirectorY}" "${OutDir}" "${FileName}" "${BuiltDLP}" "${MD5Sum}"
 exit ${?}
+
+# tar -czf QT.tar.gz --exclude '.DS_Store' QT_
