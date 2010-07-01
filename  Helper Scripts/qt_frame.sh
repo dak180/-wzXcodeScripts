@@ -24,14 +24,16 @@ for Qtframe in ${flist}; do
     ln -sfh "Versions/Current/Resources" "Resources"
     ln -sfh "Versions/Current/${Qtname}" "${Qtname}"
     
+    # Set the executable bit
+    sudo chmod u+r+w+x,g+r+w+x,o+r-w+x "Versions/${olmjrver}/${Qtname}"
     
     # Set the names correctly
     install_name_tool -id @executable_path/../Frameworks/${Qtframe}/Versions/${mjrver}/${Qtname} "${Qtname}"
     if [[ ! "${Qtname}" = "QtCore" ]]; then
-        install_name_tool -change QtCore.framework/Versions/4/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/4.0/QtCore "${Qtname}"
+        install_name_tool -change QtCore.framework/Versions/${olmjrver}/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/${mjrver}/QtCore "${Qtname}"
     fi
     if [[ "${Qtname}" = "QtOpenGL" ]]; then
-        install_name_tool -change QtGui.framework/Versions/4/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/4.0/QtGui "${Qtname}"
+        install_name_tool -change QtGui.framework/Versions/${olmjrver}/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/${mjrver}/QtGui "${Qtname}"
     fi
     
     cd ..
