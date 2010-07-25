@@ -1,7 +1,8 @@
 #!/bin/bash
 
 # Config
-rtag="$1"
+rtag="${1}"
+prerun="${2}"
 pathd="${HOME}/Applications/Build/wz2100/tags"
 dmg_bn="warzone2100"
 dmg_nv="-novideo.dmg"
@@ -21,6 +22,11 @@ if ! svn checkout https://warzone2100.svn.sourceforge.net/svnroot/warzone2100/ta
     cd ${rtag}
     svn cleanup
     exit 1
+fi
+
+if [ "${prerun}" == "pre" ]; then
+    open "${rtag}/macosx"
+    exit 0
 fi
 
 # Build
