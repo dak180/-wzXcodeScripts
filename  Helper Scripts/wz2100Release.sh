@@ -8,6 +8,7 @@ dmg_bn="warzone2100"
 dmg_nv="-novideo.dmg"
 dmg_lv="-lqvideo.dmg"
 dmg_hv="-hqvideo.dmg"
+tar_dS="-dSYM.tar.gz"
 
 # Die if empty
 if [ -z ${rtag} ]; then
@@ -60,6 +61,13 @@ if [ -f "${dmg_bn}${dmg_hv}" ]; then
     md5 -q "${dmg_bn}-${rtag}${dmg_hv}">"${dmg_bn}-${rtag}${dmg_hv}.md5"
 else
     echo "${dmg_bn}${dmg_hv} does not exist, skipping"
+fi
+
+if [ -f "${dmg_bn}${tar_dS}" ]; then
+    mv "${dmg_bn}${tar_dS}" "${dmg_bn}-${rtag}${tar_dS}"
+    md5 -q "${dmg_bn}-${rtag}${tar_dS}">"${dmg_bn}-${rtag}${tar_dS}.md5"
+else
+    echo "${dmg_bn}${tar_dS} does not exist, skipping"
 fi
 # Open upload app
 open /Applications/FileZilla.app

@@ -6,11 +6,11 @@ sequence="http://downloads.sourceforge.net/project/warzone2100/warzone2100/Video
 sequencenme="sequences.wz"
 sequencelo="http://downloads.sourceforge.net/project/warzone2100/warzone2100/Videos/2.2/low-quality-en/sequences.wz"
 sequencelonme="sequences-lo.wz"
-relbuild="build/Release/Warzone.app"
+relbuild="build/Release/"
 dmgout="build/dmgout"
 
 # Fail if not release
-if [ ! -d "$relbuild" ]; then
+if [ ! -d "${relbuild}Warzone.app" ]; then
     echo "error: This should only be run as Release" >&2
     exit 1
 fi
@@ -68,7 +68,10 @@ if ! tar -c --exclude '.svn' --exclude 'Makefile*' --exclude 'makefile*' --exclu
     echo "error: Unable to copy the app" >&2
     exit 1
 fi
+mkdir -p "${dmgout}/warzone2100-dSYM"
+cp -pPR ${relbuild}*.dSYM "${dmgout}/warzone2100-dSYM"
 cd "$dmgout"
+tar -czf warzone2100-dSYM.tar.gz --exclude '.DS_Store' warzone2100-dSYM
 
 # mkredist.bash
 
@@ -123,9 +126,11 @@ done
 
 cd ../../../../../
 
-rm -r -f ./out ./temp
+rm -rf ./out ./temp
 mkdir temp/
 mkdir out/
+mv warzone2100-dSYM temp/warzone2100-dSYM
+mv warzone2100-dSYM.tar.gz out/warzone2100-dSYM.tar.gz
 
 echo "== Creating DMG =="
 cp wztemplate.sparseimage temp/wztemplatecopy.sparseimage
@@ -163,7 +168,6 @@ fi
 
 echo "== Cleaning up =="
 rm -f temp/wztemplatecopy.sparseimage
-rmdir temp/
 
 # Open the dir
 open "out"
