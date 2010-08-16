@@ -16,7 +16,7 @@ for lang in ${polist}; do
         for strgs in ${stringslist}; do
             cp -npv "./English.lproj/${strgs}" "./${lang}.lproj/"
         done
-    elif [  ${argd} = "update" ]; then
+    elif [ "${argd}" == "update" ]; then
         echo "Updating ${lang} ..."
         for strgs in ${stringslist}; do
             cp -fpv "./English.lproj/${strgs}" "./${lang}.lproj/"
@@ -24,7 +24,7 @@ for lang in ${polist}; do
     else
         for strgs in ${stringslist}; do
             if [ -s "./${lang}.lproj/${strgs}" ]; then
-                cp -fpv "./English.lproj/${strgs}" "./${lang}.lproj/"
+                cp -npv "./English.lproj/${strgs}" "./${lang}.lproj/"
             else
                 echo "${lang}.lproj/${strgs} exists, skipping ..."
             fi
