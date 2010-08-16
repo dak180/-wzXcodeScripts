@@ -25,14 +25,13 @@ if ! svn checkout https://warzone2100.svn.sourceforge.net/svnroot/warzone2100/ta
     exit 1
 fi
 
-if [ "${prerun}" == "pre" ]; then
-    open "${rtag}/macosx"
-    exit 0
-fi
-
 # Build
 cd ${rtag}/macosx
-if ! xcodebuild -project Warzone.xcodeproj -parallelizeTargets -target "Make DMGs for Release" -configuration Release; then
+if [ "${prerun}" == "pre" ]; then
+    xcodebuild -project Warzone.xcodeproj -target Warzone -configuration Release -PBXBuildsContinueAfterErrors=NO
+    open "${rtag}/macosx"
+    exit 0
+elif ! xcodebuild -project Warzone.xcodeproj -parallelizeTargets -target "Make DMGs for Release" -configuration Release; then
     if ! xcodebuild -project Warzone.xcodeproj -parallelizeTargets -target "Make DMGs for Release" -configuration "Release" -PBXBuildsContinueAfterErrors=NO; then
 	    echo "The build has failed with the preceding error."
 	    exit 1
