@@ -29,7 +29,7 @@ fi
 cd ${rtag}/macosx
 if [ "${prerun}" == "pre" ]; then
     xcodebuild -project Warzone.xcodeproj -target Warzone -configuration Release -PBXBuildsContinueAfterErrors=NO
-    open "${rtag}/macosx"
+    open .
     exit 0
 elif ! xcodebuild -project Warzone.xcodeproj -parallelizeTargets -target "Make DMGs for Release" -configuration Release; then
     if ! xcodebuild -project Warzone.xcodeproj -parallelizeTargets -target "Make DMGs for Release" -configuration "Release" -PBXBuildsContinueAfterErrors=NO; then
