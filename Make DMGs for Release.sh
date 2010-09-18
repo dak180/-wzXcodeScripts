@@ -2,7 +2,7 @@
 simgfl="http://downloads.sourceforge.net/project/warzone2100/build-tools/mac/wztemplate.sparseimage"
 simgflnme="wztemplate.sparseimage"
 simgflmd5="da10e06f2b9b2b565e70dd8e98deaaad"
-sequence="http://downloads.sourceforge.net/project/warzone2100/warzone2100/Videos/2.2/high-quality-en/sequences.wz"
+sequence="http://downloads.sourceforge.net/project/warzone2100/warzone2100/Videos/2.2/standard-quality-en/sequences.wz"
 sequencenme="sequences.wz"
 sequencelo="http://downloads.sourceforge.net/project/warzone2100/warzone2100/Videos/2.2/low-quality-en/sequences.wz"
 sequencelonme="sequences-lo.wz"
