@@ -45,19 +45,19 @@ fi
 #
 
 # Comment out the following to skip the low qual seq
-if [ ! -f "$sequencelonme" ]; then
-    echo "Fetching $sequencelonme"
-    if [ -f "${HOME}/Applications/Build/wz2100/dmgmaker/sequences-lo.wz" ]; then
-        cp "${HOME}/Applications/Build/wz2100/dmgmaker/sequences-lo.wz" "$sequencelonme"
-    elif [ -f "${HOME}/Library/Application Support/Warzone 2100 Trunk/sequences-lq.wz" ]; then
-        cp "${HOME}/Library/Application Support/Warzone 2100 Trunk/sequences-lq.wz" "$sequencelonme"
-    elif ! curl -L --connect-timeout "30" -o "$sequencelonme" "$sequencelo"; then
-        echo "error: Unable to fetch $sequencelo" >&2
-        exit 1
-    fi
-else
-    echo "$sequencelonme already exists, skipping"
-fi
+# if [ ! -f "$sequencelonme" ]; then
+#     echo "Fetching $sequencelonme"
+#     if [ -f "${HOME}/Applications/Build/wz2100/dmgmaker/sequences-lo.wz" ]; then
+#         cp "${HOME}/Applications/Build/wz2100/dmgmaker/sequences-lo.wz" "$sequencelonme"
+#     elif [ -f "${HOME}/Library/Application Support/Warzone 2100 Trunk/sequences-lq.wz" ]; then
+#         cp "${HOME}/Library/Application Support/Warzone 2100 Trunk/sequences-lq.wz" "$sequencelonme"
+#     elif ! curl -L --connect-timeout "30" -o "$sequencelonme" "$sequencelo"; then
+#         echo "error: Unable to fetch $sequencelo" >&2
+#         exit 1
+#     fi
+# else
+#     echo "$sequencelonme already exists, skipping"
+# fi
 # 
 
 # Copy over the app
