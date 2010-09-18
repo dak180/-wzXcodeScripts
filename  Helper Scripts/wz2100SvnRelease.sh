@@ -1,38 +1,29 @@
 #!/bin/bash
 
 # Config
-rtag="${1}"
-prerun="${2}"
-pathd="${HOME}/Applications/Build/wz2100/tags"
-urld="https://warzone2100.svn.sourceforge.net/svnroot/warzone2100/tags/"
+pathd="${HOME}/Applications/Build/wz2100/trunk"
+urld="https://warzone2100.svn.sourceforge.net/svnroot/warzone2100/trunk/"
 dmg_bn="warzone2100"
 dmg_nv="-novideo.dmg"
 dmg_lv="-lqvideo.dmg"
 dmg_hv="-hqvideo.dmg"
 tar_dS="-dSYM.tar.gz"
 
-# Die if empty
-if [ -z ${rtag} ]; then
-  echo "Must supply a tag to build."
-  exit 1
-fi
 
 # Checkout
 cd "${pathd}"
-if ! svn checkout ${urld}${rtag} ${rtag}; then
-    echo "Unable to fetch ${rtag}"
-    cd ${rtag}
+if ! svn checkout ${urld} .; then
+    echo "Unable to fetch Trunk"
     svn cleanup
     exit 1
 fi
 
+# Get rev
+rtag="r`svnversion -n`"
+
 # Build
-cd ${rtag}/macosx
-if [ "${prerun}" == "pre" ]; then
-    xcodebuild -project Warzone.xcodeproj -target Warzone -configuration Release -PBXBuildsContinueAfterErrors=NO
-    open .
-    exit 0
-elif ! xcodebuild -project Warzone.xcodeproj -parallelizeTargets -target "Make DMGs for Release" -configuration Release; then
+cd macosx
+if ! xcodebuild -project Warzone.xcodeproj -parallelizeTargets -target "Make DMGs for Release" -configuration Release; then
     if ! xcodebuild -project Warzone.xcodeproj -parallelizeTargets -target "Make DMGs for Release" -configuration "Release" -PBXBuildsContinueAfterErrors=NO; then
 	    echo "The build has failed with the preceding error."
 	    exit 1
