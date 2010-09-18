@@ -68,6 +68,8 @@ if ! tar -c --exclude '.svn' --exclude 'Makefile*' --exclude 'makefile*' --exclu
     echo "error: Unable to copy the app" >&2
     exit 1
 fi
+
+# Make the dSYM Bundle
 mkdir -p "${dmgout}/warzone2100-dSYM"
 cp -pPR ${relbuild}*.dSYM "${dmgout}/warzone2100-dSYM"
 cd "$dmgout"
