@@ -6,7 +6,6 @@
 # This script sets the name of the .dmg and dSYM bundle as it uploads them and does some link magic.
 
 # Config
-bran="-2.3svn"
 uurl="buildbot@buildbot.pc-dummy.net"
 rpth="public_html/"
 lpth="macosx/build/dmgout/out/"
@@ -14,6 +13,14 @@ revt="-r`svnversion -n`"
 dmg_bn="warzone2100"
 dmg_nv="-novideo.dmg"
 tar_dS="-dSYM.tar.gz"
+
+
+# Set bran
+if [ -z ${rtag} ]; then
+	echo "Must supply the branch name being built."
+	exit 1
+fi
+bran="-${1}
 
 
 # Upload the dSYM bundle
