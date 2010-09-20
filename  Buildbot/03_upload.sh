@@ -8,6 +8,7 @@
 # Config
 rtag="${1}"
 uurl="buildbot@buildbot.pc-dummy.net"
+opth="${rtag}/mac/"
 rpth="public_html/"
 lpth="macosx/build/dmgout/out/"
 revt="-r`svnversion -n`"
@@ -25,15 +26,15 @@ bran="-${rtag}"
 
 
 # Upload the dSYM bundle
-if ! scp -pql 160 ${lpth}${dmg_bn}${tar_dS} ${uurl}:${rpth}${rtag}/${dmg_bn}${bran}${revt}${tar_dS}; then
+if ! scp -pql 160 ${lpth}${dmg_bn}${tar_dS} ${uurl}:${rpth}${opth}${dmg_bn}${bran}${revt}${tar_dS}; then
 	exit ${?}
 fi
 
 # Upload the .dmg
-if ! scp -pql 160 ${lpth}${dmg_bn}${dmg_nv} ${uurl}:${rpth}${rtag}/${dmg_bn}${bran}${revt}.dmg; then
+if ! scp -pql 160 ${lpth}${dmg_bn}${dmg_nv} ${uurl}:${rpth}${opth}${dmg_bn}${bran}${revt}.dmg; then
 	exit ${?}
 fi
 
 
 # Link up the current .dmg and dSYM bundle
-ssh ${uurl} -C "cd ${rpth} && ln -fs ${rtag}/${dmg_bn}${bran}${revt}.dmg ${dmg_bn}${bran}-current.dmg && ln -fs ${rtag}/${dmg_bn}${bran}${revt}${tar_dS} ${dmg_bn}${bran}-current${tar_dS}"
+ssh ${uurl} -C "cd ${rpth} && ln -fs ${opth}${dmg_bn}${bran}${revt}.dmg ${dmg_bn}${bran}-current.dmg && ln -fs ${opth}${dmg_bn}${bran}${revt}${tar_dS} ${dmg_bn}${bran}-current${tar_dS}"
