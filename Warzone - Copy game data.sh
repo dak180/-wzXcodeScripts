@@ -1,24 +1,45 @@
-#Config
+# Config
+export PATH=$PATH:/sw/bin:/opt/local/bin
 destdata="build/${CONFIGURATION}/Warzone.app/Contents/Resources/data"
 datadir="../data"
-svnrevtag=`svnversion -c "${datadir}"`
-mtag=`echo "${svnrevtag}" | sed -ne 's:\(.*\)M$:true:p'`
+revckf="build/revck.tmp"
+tsthg="../.hg"
+tstgit="../.git"
 
+# Check for hg or git
+if [ -d "${tsthg}" ]; then
+    revck=`hg identify`
+    mck=`hg status ${datadir}`
+elif [ -d "${tstgit}" ]; then
+    revck=`git rev-parse HEAD`
+    mck=`git status --porcelain ${datadir}`
+else
+    revck="false"
+fi
+
+# Try to figure out if the data dir needs updating
 if [ -d "${destdata}" ]; then
-    testsvnrevtag=`svnversion -c "${destdata}"`
-    if [[ "${testsvnrevtag}" = "${svnrevtag}" ]] && [[ ! "${mtag}" = "true" ]]; then
-        echo "Data directory is up to date"
-        exit 0
-    else
+    revtst=`cat ${revckf}`
+    if [[ "${revck}" == "false" ]] || [[ -z "${revck}" ]];then
+        echo "Warning: State of the data directory cannot be determined; recopying"
+        rm -rf "${destdata}"
+        mkdir -p "${destdata}"
+        cp -pPRf "${datadir}/" "${destdata}/"
+    elif [[ ! -z "${mck}" ]] || [[ ! "${revck}" = "${revtst}" ]];then
         echo "Data directory is out of date or has local modifications; recopying"
         rm -rf "${destdata}"
         mkdir -p "${destdata}"
         cp -pPRf "${datadir}/" "${destdata}/"
+    else
+        echo "Data directory is up to date"
         exit 0
     fi
 else
     mkdir -p "${destdata}"
     cp -pPRf "${datadir}/" "${destdata}/"
 fi
+
+# Write out revckf
+echo "${revck}" > ${revckf}
 
 exit 0
