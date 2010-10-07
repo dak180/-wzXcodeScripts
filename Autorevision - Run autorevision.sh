@@ -1,4 +1,5 @@
 cd ..
+export PATH=$PATH:/sw/bin:/opt/local/bin
 
 # Wait a bit if Autorevision does not exist
 tick=0
