@@ -136,7 +136,7 @@ mv warzone2100-dSYM.tar.gz out/warzone2100-dSYM.tar.gz
 
 echo "== Creating DMG =="
 cp wztemplate.sparseimage temp/wztemplatecopy.sparseimage
-hdiutil resize -size 150m temp/wztemplatecopy.sparseimage
+hdiutil resize -size 220m temp/wztemplatecopy.sparseimage
 mountpt=`hdiutil mount temp/wztemplatecopy.sparseimage | tr -d "\t" | sed -E 's:(/dev/disk[0-9])( +)(/Volumes/Warzone 2100):\1:'`
 cp -r Warzone.app/* /Volumes/Warzone\ 2100/Warzone.app
 # hdiutil detach `expr match "$mountpt" '\(^[^ ]*\)'`
@@ -145,7 +145,7 @@ hdiutil convert temp/wztemplatecopy.sparseimage -format UDZO -o out/warzone2100-
 
 if [ -f "$sequencelonme" ]; then
     echo "== Creating LQ DMG =="
-    hdiutil resize -size 350m temp/wztemplatecopy.sparseimage
+    hdiutil resize -size 420m temp/wztemplatecopy.sparseimage
     mountpt=`hdiutil mount temp/wztemplatecopy.sparseimage | tr -d "\t" | sed -E 's:(/dev/disk[0-9])( +)(/Volumes/Warzone 2100):\1:'`
     cp sequences-lo.wz /Volumes/Warzone\ 2100/Warzone.app/Contents/Resources/data/sequences.wz
     # hdiutil detach `expr match "$mountpt" '\(^[^ ]*\)'`
@@ -158,7 +158,7 @@ fi
 
 if [ -f "$sequencenme" ]; then
     echo "== Creating HQ DMG =="
-    hdiutil resize -size 700m temp/wztemplatecopy.sparseimage
+    hdiutil resize -size 770m temp/wztemplatecopy.sparseimage
     mountpt=`hdiutil mount temp/wztemplatecopy.sparseimage | tr -d "\t" | sed -E 's:(/dev/disk[0-9])( +)(/Volumes/Warzone 2100):\1:'`
     rm /Volumes/Warzone\ 2100/Warzone.app/Contents/Resources/data/sequences.wz
     cp sequences.wz /Volumes/Warzone\ 2100/Warzone.app/Contents/Resources/data/sequences.wz
