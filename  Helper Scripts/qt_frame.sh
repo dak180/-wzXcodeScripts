@@ -2,7 +2,7 @@
 
 # Config
 go_dir=`dirname ${BASH_SOURCE}`
-flist=`ls -1 "${go_dir}" | sed -n 's:.framework$:&:p'`
+flist=`\ls -1 "${go_dir}" | sed -n 's:.framework$:&:p'`
 mjrver="4.0"
 olmjrver="4"
 
