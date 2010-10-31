@@ -39,31 +39,32 @@ fi
 
 # Rename and md5
 cd build/dmgout/out
+rtag=`echo ${rtag} | sed 's:/:_:g'`
 
 if [ -f "${dmg_bn}${dmg_nv}" ]; then
     mv "${dmg_bn}${dmg_nv}" "${dmg_bn}-${rtag}_[${git_sr}]${dmg_nv}"
-    md5 -q "${dmg_bn}-${rtag}${dmg_nv}">"${dmg_bn}-${rtag}_[${git_sr}]${dmg_nv}.md5"
+    md5 -q "${dmg_bn}-${rtag_[${git_sr}]}${dmg_nv}">"${dmg_bn}-${rtag}_[${git_sr}]${dmg_nv}.md5"
 else
     echo "${dmg_bn}${dmg_nv} does not exist, skipping"
 fi
 
 if [ -f "${dmg_bn}${dmg_lv}" ]; then
     mv "${dmg_bn}${dmg_lv}" "${dmg_bn}-${rtag}_[${git_sr}]${dmg_lv}"
-    md5 -q "${dmg_bn}-${rtag}${dmg_lv}">"${dmg_bn}-${rtag}_[${git_sr}]${dmg_lv}.md5"
+    md5 -q "${dmg_bn}-${rtag}_[${git_sr}]${dmg_lv}">"${dmg_bn}-${rtag}_[${git_sr}]${dmg_lv}.md5"
 else
     echo "${dmg_bn}${dmg_lv} does not exist, skipping"
 fi
 
 if [ -f "${dmg_bn}${dmg_hv}" ]; then
     mv "${dmg_bn}${dmg_hv}" "${dmg_bn}-${rtag}_[${git_sr}]${dmg_hv}"
-    md5 -q "${dmg_bn}-${rtag}${dmg_hv}">"${dmg_bn}-${rtag}_[${git_sr}]${dmg_hv}.md5"
+    md5 -q "${dmg_bn}-${rtag}_[${git_sr}]${dmg_hv}">"${dmg_bn}-${rtag}_[${git_sr}]${dmg_hv}.md5"
 else
     echo "${dmg_bn}${dmg_hv} does not exist, skipping"
 fi
 
 if [ -f "${dmg_bn}${tar_dS}" ]; then
     mv "${dmg_bn}${tar_dS}" "${dmg_bn}-${rtag}_[${git_sr}]${tar_dS}"
-    md5 -q "${dmg_bn}-${rtag}${tar_dS}">"${dmg_bn}-${rtag}_[${git_sr}]${tar_dS}.md5"
+    md5 -q "${dmg_bn}-${rtag}_[${git_sr}]${tar_dS}">"${dmg_bn}-${rtag}_[${git_sr}]${tar_dS}.md5"
 else
     echo "${dmg_bn}${tar_dS} does not exist, skipping"
 fi
