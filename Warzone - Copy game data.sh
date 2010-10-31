@@ -7,12 +7,12 @@ tsthg="../.hg"
 tstgit="../.git"
 
 # Check for hg or git
-if [ -d "${tsthg}" ]; then
-    revck=`hg identify`
-    mck=`hg status ${datadir}`
-elif [ -d "${tstgit}" ]; then
+if [ -d "${tstgit}" ]; then
     revck=`git rev-parse HEAD`
     mck=`git status --porcelain ${datadir}`
+elif [ -d "${tsthg}" ]; then
+    revck=`hg identify`
+    mck=`hg status ${datadir}`
 else
     revck="false"
 fi
