@@ -43,7 +43,7 @@ rtag=`echo ${rtag} | sed 's:/:_:g'`
 
 if [ -f "${dmg_bn}${dmg_nv}" ]; then
     mv "${dmg_bn}${dmg_nv}" "${dmg_bn}-${rtag}_[${git_sr}]${dmg_nv}"
-    md5 -q "${dmg_bn}-${rtag_[${git_sr}]}${dmg_nv}">"${dmg_bn}-${rtag}_[${git_sr}]${dmg_nv}.md5"
+    md5 -q "${dmg_bn}-${rtag}_[${git_sr}]${dmg_nv}">"${dmg_bn}-${rtag}_[${git_sr}]${dmg_nv}.md5"
 else
     echo "${dmg_bn}${dmg_nv} does not exist, skipping"
 fi
