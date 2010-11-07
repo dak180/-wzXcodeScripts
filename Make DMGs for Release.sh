@@ -8,12 +8,36 @@ sequencelo="http://downloads.sourceforge.net/project/warzone2100/warzone2100/Vid
 sequencelonme="sequences-lo.wz"
 relbuild="build/Release/"
 dmgout="build/dmgout"
+coident="${SRCROOT}/configs/codeident"
 
 # Fail if not release
 if [ ! -d "${relbuild}Warzone.app" ]; then
     echo "error: This should only be run as Release" >&2
     exit 1
 fi
+
+# codesign setup
+signd () {
+    if [ -f "${coident}" ]; then
+        # Local Config
+        local idetd=`cat ${coident}`
+        local resrul="${SRCROOT}/configs/codesignrules.plist"
+        local appth="/Volumes/Warzone 2100/Warzone.app"
+        
+        # Sign app
+        codesign -vfs "${idetd}" --keychain "CodeSign" --verify --resource-rules="${resrul}" "${appth}"
+        
+        # Sign the frameworks
+        local framelst=`\ls -1 "${appth}/Contents/Frameworks" | sed -n 's:.framework$:&:p'`
+        for fsignd in ${framelst}; do
+             if [ -d "${appth}/Contents/Frameworks/${fsignd}/Versions/A" ]; then
+                codesign -vfs "${idetd}" --keychain "CodeSign" --verify "${appth}/Contents/Frameworks/${fsignd}/Versions/A"
+            fi
+        done
+    else
+        echo "warning: No codeident file found; code will not be signed."
+    fi
+}
 
 # Make a dir and get the sparseimage
 mkdir -p "$dmgout"
@@ -97,7 +121,7 @@ fi
 
 cd mods/
 
-modlst=`ls -1`
+modlst=`\ls -1`
 for moddr in ${modlst}; do
     if [ -d ${moddr} ]; then
         cd ${moddr}
@@ -139,6 +163,7 @@ cp wztemplate.sparseimage temp/wztemplatecopy.sparseimage
 hdiutil resize -size 220m temp/wztemplatecopy.sparseimage
 mountpt=`hdiutil mount temp/wztemplatecopy.sparseimage | tr -d "\t" | sed -E 's:(/dev/disk[0-9])( +)(/Volumes/Warzone 2100):\1:'`
 cp -r Warzone.app/* /Volumes/Warzone\ 2100/Warzone.app
+signd
 # hdiutil detach `expr match "$mountpt" '\(^[^ ]*\)'`
 hdiutil detach "$mountpt"
 hdiutil convert temp/wztemplatecopy.sparseimage -format UDZO -o out/warzone2100-novideo.dmg
@@ -148,6 +173,7 @@ if [ -f "$sequencelonme" ]; then
     hdiutil resize -size 420m temp/wztemplatecopy.sparseimage
     mountpt=`hdiutil mount temp/wztemplatecopy.sparseimage | tr -d "\t" | sed -E 's:(/dev/disk[0-9])( +)(/Volumes/Warzone 2100):\1:'`
     cp sequences-lo.wz /Volumes/Warzone\ 2100/Warzone.app/Contents/Resources/data/sequences.wz
+    signd
     # hdiutil detach `expr match "$mountpt" '\(^[^ ]*\)'`
     hdiutil detach "$mountpt"
     hdiutil convert temp/wztemplatecopy.sparseimage -format UDZO -o out/warzone2100-lqvideo.dmg
@@ -162,6 +188,7 @@ if [ -f "$sequencenme" ]; then
     mountpt=`hdiutil mount temp/wztemplatecopy.sparseimage | tr -d "\t" | sed -E 's:(/dev/disk[0-9])( +)(/Volumes/Warzone 2100):\1:'`
     rm /Volumes/Warzone\ 2100/Warzone.app/Contents/Resources/data/sequences.wz
     cp sequences.wz /Volumes/Warzone\ 2100/Warzone.app/Contents/Resources/data/sequences.wz
+    signd
     hdiutil detach "$mountpt"
     hdiutil convert temp/wztemplatecopy.sparseimage -format UDZO  -o out/warzone2100-hqvideo.dmg
 else
