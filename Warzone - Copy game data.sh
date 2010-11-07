@@ -11,7 +11,7 @@ if [ -d "${tstgit}" ]; then
     revck=`git rev-parse HEAD`
     mck=`git status --porcelain ${datadir}`
 elif [ -d "${tsthg}" ]; then
-    revck=`hg identify`
+    revck=`hg ident | sed -e 's:+::'`
     mck=`hg status ${datadir}`
 else
     revck="false"
