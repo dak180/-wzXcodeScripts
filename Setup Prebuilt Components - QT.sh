@@ -2,7 +2,7 @@ DirectorY="QT_"
 OutDir="QT"
 FileName="QT.tar.gz"
 BuiltDLP="http://downloads.sourceforge.net/project/warzone2100/build-tools/mac/QT.tar.gz"
-MD5Sum="51ec0bf082620bf8c379661b564c2f6d"
+MD5Sum="4155cc5219bcc0dd9f13cb9d9bf4c843"
 
 configs/FetchPrebuilt.sh "${DirectorY}" "${OutDir}" "${FileName}" "${BuiltDLP}" "${MD5Sum}"
 exit ${?}
