@@ -15,7 +15,9 @@ for Qtframe in ${flist}; do
     echo "Fixing up ${Qtname}..."
     
     # Put the Info.plist in the right place
-    mkdir -pm "0775" "Versions/${mjrver}/Resources"
+    if [ ! -d "Versions/${mjrver}/Resources" ]; then
+        mkdir -pm "0775" "Versions/${mjrver}/Resources"
+    fi
     mv -n "Contents/Info.plist" "Versions/${mjrver}/Resources/"
     rmdir "Contents"
     
@@ -42,6 +44,7 @@ for Qtframe in ${flist}; do
         install_name_tool -change QtXml.framework/Versions/${olmjrver}/QtXml @executable_path/../Frameworks/QtXml.framework/Versions/${mjrver}/QtXml "${Qtname}"
     fi
     
+    edit -b "Versions/${mjrver}/Resources/Info.plist"
     cd ..
 done
 
