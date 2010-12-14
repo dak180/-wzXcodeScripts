@@ -27,8 +27,9 @@ git_sr=`git rev-parse -q --short --verify HEAD`
 # Build
 cd ./macosx
 if [ "${prerun}" == "pre" ]; then
-    xcodebuild -project Warzone.xcodeproj -target Warzone -configuration Release -PBXBuildsContinueAfterErrors=NO
-    open .
+    if ! xcodebuild -project Warzone.xcodeproj -target Warzone -configuration Release -PBXBuildsContinueAfterErrors=NO; then
+        open .
+    fi
     exit 0
 elif ! xcodebuild -project Warzone.xcodeproj -parallelizeTargets -target "Make DMGs for Release" -configuration Release; then
     if ! xcodebuild -project Warzone.xcodeproj -parallelizeTargets -target "Make DMGs for Release" -configuration "Release" -PBXBuildsContinueAfterErrors=NO; then
