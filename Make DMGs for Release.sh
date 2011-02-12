@@ -6,12 +6,12 @@ sequence="http://downloads.sourceforge.net/project/warzone2100/warzone2100/Video
 sequencenme="sequences.wz"
 sequencelo="http://downloads.sourceforge.net/project/warzone2100/warzone2100/Videos/2.2/low-quality-en/sequences.wz"
 sequencelonme="sequences-lo.wz"
-relbuild="build/Release/"
+relbuild="build/${CONFIGURATION}/"
 dmgout="build/dmgout"
 coident="${SRCROOT}/configs/codeident"
 
 # Fail if not release
-if [ ! -d "${relbuild}Warzone.app" ]; then
+if [ "${CONFIGURATION}" = "Debug" ]; then
     echo "error: This should only be run as Release" >&2
     exit 1
 fi
