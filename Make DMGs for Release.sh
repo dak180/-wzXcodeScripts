@@ -12,75 +12,75 @@ coident="${SRCROOT}/configs/codeident"
 
 # Fail if not release
 if [ "${CONFIGURATION}" = "Debug" ]; then
-    echo "error: This should only be run as Release" >&2
-    exit 1
+	echo "error: This should only be run as Release" >&2
+	exit 1
 fi
 
 # codesign setup
 signd () {
-    if [ -f "${coident}" ]; then
-        # Local Config
-        local idetd=`cat ${coident}`
-        local resrul="${SRCROOT}/configs/codesignrules.plist"
-        local appth="/Volumes/Warzone 2100/Warzone.app"
-        
-        # Sign app
-        codesign -vfs "${idetd}" --keychain "CodeSign" --verify --resource-rules="${resrul}" "${appth}"
-        
-        # Sign the frameworks
-        local framelst=`\ls -1 "${appth}/Contents/Frameworks" | sed -n 's:.framework$:&:p'`
-        for fsignd in ${framelst}; do
-             if [ -d "${appth}/Contents/Frameworks/${fsignd}/Versions/A" ]; then
-                codesign -vfs "${idetd}" --keychain "CodeSign" --verify "${appth}/Contents/Frameworks/${fsignd}/Versions/A"
-            fi
-        done
-    else
-        echo "warning: No codeident file found; code will not be signed."
-    fi
+	if [ -f "${coident}" ]; then
+		# Local Config
+		local idetd=`cat ${coident}`
+		local resrul="${SRCROOT}/configs/codesignrules.plist"
+		local appth="/Volumes/Warzone 2100/Warzone.app"
+		
+		# Sign app
+		codesign -vfs "${idetd}" --keychain "CodeSign" --verify --resource-rules="${resrul}" "${appth}"
+		
+		# Sign the frameworks
+		local framelst=`\ls -1 "${appth}/Contents/Frameworks" | sed -n 's:.framework$:&:p'`
+		for fsignd in ${framelst}; do
+			 if [ -d "${appth}/Contents/Frameworks/${fsignd}/Versions/A" ]; then
+				codesign -vfs "${idetd}" --keychain "CodeSign" --verify "${appth}/Contents/Frameworks/${fsignd}/Versions/A"
+			fi
+		done
+	else
+		echo "warning: No codeident file found; code will not be signed."
+	fi
 }
 
 # Make a dir and get the sparseimage
 mkdir -p "$dmgout"
 cd  "$dmgout"
 if [ ! -f "$simgflnme" ]; then
-    echo "Fetching $simgfl"
-    if ! curl -L -O --connect-timeout "30" "$simgfl"; then
-        echo "error: Unable to fetch $simgfl" >&2
-        exit 1
-    fi
+	echo "Fetching $simgfl"
+	if ! curl -L -O --connect-timeout "30" "$simgfl"; then
+		echo "error: Unable to fetch $simgfl" >&2
+		exit 1
+	fi
 else
-    echo "$simgflnme already exists, skipping"
+	echo "$simgflnme already exists, skipping"
 fi
 
 # Get the sequences
 
 # Comment out the following to skip the high qual seq
 # if [ ! -f "$sequencenme" ]; then
-#     echo "Fetching $sequencenme"
-#     if [ -f "${HOME}/Library/Application Support/Warzone 2100 master/sequences.wz" ]; then
-#         cp "${HOME}/Library/Application Support/Warzone 2100 master/sequences.wz" "$sequencenme"
-#     elif ! curl -L --connect-timeout "30" -o "$sequencenme" "$sequence"; then
-#         echo "error: Unable to fetch $sequence" >&2
-#         exit 1
-#     fi
+#	 echo "Fetching $sequencenme"
+#	 if [ -f "${HOME}/Library/Application Support/Warzone 2100 master/sequences.wz" ]; then
+#		 cp "${HOME}/Library/Application Support/Warzone 2100 master/sequences.wz" "$sequencenme"
+#	 elif ! curl -L --connect-timeout "30" -o "$sequencenme" "$sequence"; then
+#		 echo "error: Unable to fetch $sequence" >&2
+#		 exit 1
+#	 fi
 # else
-#     echo "$sequencenme already exists, skipping"
+#	 echo "$sequencenme already exists, skipping"
 # fi
 #
 
 # Comment out the following to skip the low qual seq
 # if [ ! -f "$sequencelonme" ]; then
-#     echo "Fetching $sequencelonme"
-#     if [ -f "${HOME}/Applications/Build/wz2100/dmgmaker/sequences-lo.wz" ]; then
-#         cp "${HOME}/Applications/Build/wz2100/dmgmaker/sequences-lo.wz" "$sequencelonme"
-#     elif [ -f "${HOME}/Library/Application Support/Warzone 2100 master/sequences-lq.wz" ]; then
-#         cp "${HOME}/Library/Application Support/Warzone 2100 master/sequences-lq.wz" "$sequencelonme"
-#     elif ! curl -L --connect-timeout "30" -o "$sequencelonme" "$sequencelo"; then
-#         echo "error: Unable to fetch $sequencelo" >&2
-#         exit 1
-#     fi
+#	 echo "Fetching $sequencelonme"
+#	 if [ -f "${HOME}/Applications/Build/wz2100/dmgmaker/sequences-lo.wz" ]; then
+#		 cp "${HOME}/Applications/Build/wz2100/dmgmaker/sequences-lo.wz" "$sequencelonme"
+#	 elif [ -f "${HOME}/Library/Application Support/Warzone 2100 master/sequences-lq.wz" ]; then
+#		 cp "${HOME}/Library/Application Support/Warzone 2100 master/sequences-lq.wz" "$sequencelonme"
+#	 elif ! curl -L --connect-timeout "30" -o "$sequencelonme" "$sequencelo"; then
+#		 echo "error: Unable to fetch $sequencelo" >&2
+#		 exit 1
+#	 fi
 # else
-#     echo "$sequencelonme already exists, skipping"
+#	 echo "$sequencelonme already exists, skipping"
 # fi
 # 
 
@@ -89,8 +89,8 @@ cd ../../
 echo "Copying the app cleanly."
 rm -r -f $dmgout/Warzone.app
 if ! tar -c --exclude '.svn' --exclude 'Makefile*' --exclude 'makefile*' --exclude '.DS_Store' -C build/Release Warzone.app | tar -xC $dmgout; then
-    echo "error: Unable to copy the app" >&2
-    exit 1
+	echo "error: Unable to copy the app" >&2
+	exit 1
 fi
 
 # Make the dSYM Bundle
@@ -123,31 +123,31 @@ cd mods/
 
 modlst=`\ls -1`
 for moddr in ${modlst}; do
-    if [ -d ${moddr} ]; then
-        cd ${moddr}
-        if [ "${moddr}" = "campaign" ]; then
-            sbtyp=".cam"
-        elif [ "${moddr}" = "global" ]; then
-            sbtyp=".gmod"
-        elif [ "${moddr}" = "multiplay" ]; then
-            sbtyp=".mod"
-        elif [ "${moddr}" = "music" ]; then
-            sbtyp=".music"
-        else
-            sbtyp=""
-        fi
-        modlstd=`ls -1`
-        for modwz in ${modlstd}; do
-            if [ -d ${modwz} ]; then
-                echo "== Compressing ${modwz}${sbtyp}.wz =="
-                cd ${modwz}
-                zip -r ../${modwz}${sbtyp}.wz *
-                cd ..
-                rm -rf "${modwz}/"
-            fi
-        done
-        cd ..
-    fi
+	if [ -d ${moddr} ]; then
+		cd ${moddr}
+		if [ "${moddr}" = "campaign" ]; then
+			sbtyp=".cam"
+		elif [ "${moddr}" = "global" ]; then
+			sbtyp=".gmod"
+		elif [ "${moddr}" = "multiplay" ]; then
+			sbtyp=".mod"
+		elif [ "${moddr}" = "music" ]; then
+			sbtyp=".music"
+		else
+			sbtyp=""
+		fi
+		modlstd=`ls -1`
+		for modwz in ${modlstd}; do
+			if [ -d ${modwz} ]; then
+				echo "== Compressing ${modwz}${sbtyp}.wz =="
+				cd ${modwz}
+				zip -r ../${modwz}${sbtyp}.wz *
+				cd ..
+				rm -rf "${modwz}/"
+			fi
+		done
+		cd ..
+	fi
 done
 
 cd ../../../../../
@@ -162,37 +162,37 @@ echo "== Creating DMG =="
 cp wztemplate.sparseimage temp/wztemplatecopy.sparseimage
 hdiutil resize -size 220m temp/wztemplatecopy.sparseimage
 mountpt=`hdiutil mount temp/wztemplatecopy.sparseimage | tr -d "\t" | sed -E 's:(/dev/disk[0-9])( +)(/Volumes/Warzone 2100):\1:'`
-cp -r Warzone.app/* /Volumes/Warzone\ 2100/Warzone.app
+cp -a Warzone.app/* /Volumes/Warzone\ 2100/Warzone.app
 signd
 # hdiutil detach `expr match "$mountpt" '\(^[^ ]*\)'`
 hdiutil detach "$mountpt"
 hdiutil convert temp/wztemplatecopy.sparseimage -format UDZO -o out/warzone2100-novideo.dmg
 
 if [ -f "$sequencelonme" ]; then
-    echo "== Creating LQ DMG =="
-    hdiutil resize -size 420m temp/wztemplatecopy.sparseimage
-    mountpt=`hdiutil mount temp/wztemplatecopy.sparseimage | tr -d "\t" | sed -E 's:(/dev/disk[0-9])( +)(/Volumes/Warzone 2100):\1:'`
-    cp sequences-lo.wz /Volumes/Warzone\ 2100/Warzone.app/Contents/Resources/data/sequences.wz
-    signd
-    # hdiutil detach `expr match "$mountpt" '\(^[^ ]*\)'`
-    hdiutil detach "$mountpt"
-    hdiutil convert temp/wztemplatecopy.sparseimage -format UDZO -o out/warzone2100-lqvideo.dmg
+	echo "== Creating LQ DMG =="
+	hdiutil resize -size 420m temp/wztemplatecopy.sparseimage
+	mountpt=`hdiutil mount temp/wztemplatecopy.sparseimage | tr -d "\t" | sed -E 's:(/dev/disk[0-9])( +)(/Volumes/Warzone 2100):\1:'`
+	cp sequences-lo.wz /Volumes/Warzone\ 2100/Warzone.app/Contents/Resources/data/sequences.wz
+	signd
+	# hdiutil detach `expr match "$mountpt" '\(^[^ ]*\)'`
+	hdiutil detach "$mountpt"
+	hdiutil convert temp/wztemplatecopy.sparseimage -format UDZO -o out/warzone2100-lqvideo.dmg
 else
-    echo "$sequencelonme does not exist, skipping"
+	echo "$sequencelonme does not exist, skipping"
 fi
 
 
 if [ -f "$sequencenme" ]; then
-    echo "== Creating HQ DMG =="
-    hdiutil resize -size 770m temp/wztemplatecopy.sparseimage
-    mountpt=`hdiutil mount temp/wztemplatecopy.sparseimage | tr -d "\t" | sed -E 's:(/dev/disk[0-9])( +)(/Volumes/Warzone 2100):\1:'`
-    rm /Volumes/Warzone\ 2100/Warzone.app/Contents/Resources/data/sequences.wz
-    cp sequences.wz /Volumes/Warzone\ 2100/Warzone.app/Contents/Resources/data/sequences.wz
-    signd
-    hdiutil detach "$mountpt"
-    hdiutil convert temp/wztemplatecopy.sparseimage -format UDZO  -o out/warzone2100-hqvideo.dmg
+	echo "== Creating HQ DMG =="
+	hdiutil resize -size 770m temp/wztemplatecopy.sparseimage
+	mountpt=`hdiutil mount temp/wztemplatecopy.sparseimage | tr -d "\t" | sed -E 's:(/dev/disk[0-9])( +)(/Volumes/Warzone 2100):\1:'`
+	rm /Volumes/Warzone\ 2100/Warzone.app/Contents/Resources/data/sequences.wz
+	cp sequences.wz /Volumes/Warzone\ 2100/Warzone.app/Contents/Resources/data/sequences.wz
+	signd
+	hdiutil detach "$mountpt"
+	hdiutil convert temp/wztemplatecopy.sparseimage -format UDZO  -o out/warzone2100-hqvideo.dmg
 else
-    echo "$sequencenme does not exist, skipping"
+	echo "$sequencenme does not exist, skipping"
 fi
 
 echo "== Cleaning up =="
