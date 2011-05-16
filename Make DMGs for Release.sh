@@ -30,7 +30,7 @@ signd () {
 		# Sign the frameworks
 		local framelst=`\ls -1 "${appth}/Contents/Frameworks" | sed -n 's:.framework$:&:p'`
 		for fsignd in ${framelst}; do
-			 if [ -d "${appth}/Contents/Frameworks/${fsignd}/Versions/A" ]; then
+			if [ -d "${appth}/Contents/Frameworks/${fsignd}/Versions/A" ]; then
 				codesign -vfs "${idetd}" --keychain "CodeSign" --verify "${appth}/Contents/Frameworks/${fsignd}/Versions/A"
 			fi
 		done
@@ -56,31 +56,31 @@ fi
 
 # Comment out the following to skip the high qual seq
 # if [ ! -f "$sequencenme" ]; then
-#	 echo "Fetching $sequencenme"
-#	 if [ -f "${HOME}/Library/Application Support/Warzone 2100 master/sequences.wz" ]; then
-#		 cp "${HOME}/Library/Application Support/Warzone 2100 master/sequences.wz" "$sequencenme"
-#	 elif ! curl -L --connect-timeout "30" -o "$sequencenme" "$sequence"; then
-#		 echo "error: Unable to fetch $sequence" >&2
-#		 exit 1
-#	 fi
+# 	echo "Fetching $sequencenme"
+# 	if [ -f "${HOME}/Library/Application Support/Warzone 2100 master/sequences.wz" ]; then
+# 		cp "${HOME}/Library/Application Support/Warzone 2100 master/sequences.wz" "$sequencenme"
+# 	elif ! curl -L --connect-timeout "30" -o "$sequencenme" "$sequence"; then
+# 		echo "error: Unable to fetch $sequence" >&2
+# 		exit 1
+# 	fi
 # else
-#	 echo "$sequencenme already exists, skipping"
+# 	echo "$sequencenme already exists, skipping"
 # fi
 #
 
 # Comment out the following to skip the low qual seq
 # if [ ! -f "$sequencelonme" ]; then
-#	 echo "Fetching $sequencelonme"
-#	 if [ -f "${HOME}/Applications/Build/wz2100/dmgmaker/sequences-lo.wz" ]; then
-#		 cp "${HOME}/Applications/Build/wz2100/dmgmaker/sequences-lo.wz" "$sequencelonme"
-#	 elif [ -f "${HOME}/Library/Application Support/Warzone 2100 master/sequences-lq.wz" ]; then
-#		 cp "${HOME}/Library/Application Support/Warzone 2100 master/sequences-lq.wz" "$sequencelonme"
-#	 elif ! curl -L --connect-timeout "30" -o "$sequencelonme" "$sequencelo"; then
-#		 echo "error: Unable to fetch $sequencelo" >&2
-#		 exit 1
-#	 fi
+# 	echo "Fetching $sequencelonme"
+# 	if [ -f "${HOME}/Applications/Build/wz2100/dmgmaker/sequences-lo.wz" ]; then
+# 		cp "${HOME}/Applications/Build/wz2100/dmgmaker/sequences-lo.wz" "$sequencelonme"
+# 	elif [ -f "${HOME}/Library/Application Support/Warzone 2100 master/sequences-lq.wz" ]; then
+# 		cp "${HOME}/Library/Application Support/Warzone 2100 master/sequences-lq.wz" "$sequencelonme"
+# 	elif ! curl -L --connect-timeout "30" -o "$sequencelonme" "$sequencelo"; then
+# 		echo "error: Unable to fetch $sequencelo" >&2
+# 		exit 1
+# 	fi
 # else
-#	 echo "$sequencelonme already exists, skipping"
+# 	echo "$sequencelonme already exists, skipping"
 # fi
 # 
 
@@ -88,7 +88,7 @@ fi
 cd ../../
 echo "Copying the app cleanly."
 rm -r -f $dmgout/Warzone.app
-if ! tar -c --exclude '.svn' --exclude 'Makefile*' --exclude 'makefile*' --exclude '.DS_Store' -C build/Release Warzone.app | tar -xC $dmgout; then
+if ! tar -c --exclude '.svn' --exclude 'Makefile*' --exclude 'makefile*' --exclude '.DS_Store' -C build/${CONFIGURATION} Warzone.app | tar -xC $dmgout; then
 	echo "error: Unable to copy the app" >&2
 	exit 1
 fi
