@@ -30,18 +30,19 @@ for Qtframe in ${flist}; do
     sudo chmod u+r+w+x,g+r+w+x,o+r-w+x "Versions/${olmjrver}/${Qtname}"
     
     # Set the names correctly
-    install_name_tool -id @executable_path/../Frameworks/${Qtframe}/Versions/${mjrver}/${Qtname} "${Qtname}"
+    install_name_tool -id @rpath/${Qtframe}/Versions/${mjrver}/${Qtname} "${Qtname}"
+    install_name_tool -add_rpath @loader_path
     if [[ ! "${Qtname}" = "QtCore" ]]; then
-        install_name_tool -change QtCore.framework/Versions/${olmjrver}/QtCore @executable_path/../Frameworks/QtCore.framework/Versions/${mjrver}/QtCore "${Qtname}"
+        install_name_tool -change QtCore.framework/Versions/${olmjrver}/QtCore @rpath/QtCore.framework/Versions/${mjrver}/QtCore "${Qtname}"
     fi
     if [[ "${Qtname}" = "QtOpenGL" ]]; then
-        install_name_tool -change QtGui.framework/Versions/${olmjrver}/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/${mjrver}/QtGui "${Qtname}"
+        install_name_tool -change QtGui.framework/Versions/${olmjrver}/QtGui @rpath/QtGui.framework/Versions/${mjrver}/QtGui "${Qtname}"
     fi
     if [[ "${Qtname}" = "Qt3Support" ]]; then
-        install_name_tool -change QtGui.framework/Versions/${olmjrver}/QtGui @executable_path/../Frameworks/QtGui.framework/Versions/${mjrver}/QtGui "${Qtname}"
-        install_name_tool -change QtNetwork.framework/Versions/${olmjrver}/QtNetwork @executable_path/../Frameworks/QtNetwork.framework/Versions/${mjrver}/QtNetwork "${Qtname}"
-        install_name_tool -change QtSql.framework/Versions/${olmjrver}/QtSql @executable_path/../Frameworks/QtSql.framework/Versions/${mjrver}/QtSql "${Qtname}"
-        install_name_tool -change QtXml.framework/Versions/${olmjrver}/QtXml @executable_path/../Frameworks/QtXml.framework/Versions/${mjrver}/QtXml "${Qtname}"
+        install_name_tool -change QtGui.framework/Versions/${olmjrver}/QtGui @rpath/QtGui.framework/Versions/${mjrver}/QtGui "${Qtname}"
+        install_name_tool -change QtNetwork.framework/Versions/${olmjrver}/QtNetwork @rpath/QtNetwork.framework/Versions/${mjrver}/QtNetwork "${Qtname}"
+        install_name_tool -change QtSql.framework/Versions/${olmjrver}/QtSql @rpath/QtSql.framework/Versions/${mjrver}/QtSql "${Qtname}"
+        install_name_tool -change QtXml.framework/Versions/${olmjrver}/QtXml @rpath/QtXml.framework/Versions/${mjrver}/QtXml "${Qtname}"
     fi
     
     edit -b "Versions/${mjrver}/Resources/Info.plist"
