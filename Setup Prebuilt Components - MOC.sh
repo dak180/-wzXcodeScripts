@@ -1,4 +1,4 @@
-export PATH=/sw/lib/qt4-mac/bin:/opt/local/bin:${PATH}
+export PATH=/sw/lib/qt4-mac/bin:/sw/lib/qt4-x11/bin:/opt/local/bin:${PATH}
 echo "Checking for moc..."
 if ! type -aP moc; then
     echo "error: Fatal inability to properly moc the code. (Insure you have installed Qt or risk more mocing.)" >&2
