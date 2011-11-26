@@ -1,7 +1,7 @@
 # Config
 export PATH=$PATH:/sw/bin:/opt/local/bin
 function hfilter {
-	sed -e 's:refs/heads/:branch/:' -e 's:master:Master:' -e 's:^v::' src/autorevision.h | sed -e 's:_beta: Beta :' -e 's:_rc: RC :' > "${OBJROOT}/autorevision.h"
+	sed -e 's:refs/heads/:branch/:' -e 's:master:Master:' -e 's:	v:	:' -e 's:v/::' src/autorevision.h | sed -e 's:_beta: Beta :' -e 's:_rc: RC :' > "${OBJROOT}/autorevision.h"
 }
 sauto="src/autorevision.h"
 tauto="${OBJROOT}/autorev/autorevision.h"
