@@ -2,7 +2,7 @@
 export PATH=$PATH:/sw/bin:/opt/local/bin:/usr/local/bin
 
 # Config
-nowd=$(php -r "echo microtime(true);" --)
+nowd=$(git rev-parse HEAD | cut -b 1-7)
 mWarzoneHelp="macosx/WarzoneHelp/Contents/Resources"
 mWarzoneHelpLproj="${mWarzoneHelp}/en.lproj"
 
@@ -55,10 +55,10 @@ rm -f "${mWarzoneHelp}/WarzoneHelp.helpindex"
 
 # Make the tarball
 cd macosx
-mv WarzoneHelp WarzoneHelp.${nowd}
-tar -czf WarzoneHelp.tgz --exclude '.DS_Store' WarzoneHelp.${nowd}
-rm -fr WarzoneHelp.${nowd}
+mv WarzoneHelp WarzoneHelp-${nowd}
+tar -czf WarzoneHelp-${nowd}.tgz --exclude '.DS_Store' WarzoneHelp-${nowd}
+rm -fr WarzoneHelp-${nowd}
 echo ""
-echo "WarzoneHelp.${nowd}: $(md5 -q WarzoneHelp.tgz)"
+echo "WarzoneHelp-${nowd}: $(md5 -q WarzoneHelp-${nowd}.tgz)"
 
 exit 0
