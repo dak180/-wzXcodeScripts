@@ -25,6 +25,7 @@ if type -aP a2x; then
     rm -fr "${mWarzoneHelpLproj}/docbook-xsl.css" "${mWarzoneHelpLproj}/images"
     sed -i '' -e 's:href="docbook-xsl.css:href="../docbook-xsl.css:g' ${mWarzoneHelpLproj}/*.html
     sed -i '' -e 's:src="images/:src="../images/:g' ${mWarzoneHelpLproj}/*.html
+    sed -i '' -e 's:warzone2100:Warzone:g' ${mWarzoneHelpLproj}/warzone2100.6.html
 else
 	echo "error: no suitable a2x (asciidoc) in path"
 	exit 1
