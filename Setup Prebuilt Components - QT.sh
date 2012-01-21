@@ -1,10 +1,10 @@
-DirectorY="QT_"
+DirectorY="QT-4.7.4"
 OutDir="QT"
-FileName="QT.tar.gz"
-BuiltDLP="http://downloads.sourceforge.net/project/warzone2100/build-tools/mac/QT.tar.gz"
-MD5Sum="8bd5dd347b391ab4a29105f144c64b4d"
+FileName="QT-4.7.4.tgz"
+BuiltDLP="http://downloads.sourceforge.net/project/warzone2100/build-tools/mac/QT-4.7.4.tgz"
+MD5Sum="74e410b376e1c19b0990f637f646f26e"
 
 configs/FetchPrebuilt.sh "${DirectorY}" "${OutDir}" "${FileName}" "${BuiltDLP}" "${MD5Sum}"
 exit ${?}
 
-# tar -czf QT.tgz --exclude '.DS_Store' QT-4.7
+# tar -czf QT-4.7.4.tgz --exclude '.DS_Store' QT-4.7.4
