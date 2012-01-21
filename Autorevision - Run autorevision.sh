@@ -4,7 +4,7 @@ sauto="src/autorevision.h"
 tauto="${OBJROOT}/autorev/autorevision.h"
 function hfilter {
 	rm -f "${OBJROOT}/autorevision.h"
-	sed -e 's:refs/heads/:branch/:' -e 's:refs/remotes/:remote/:' -e 's:branch/master:Master:' -e 's:	v:	:' -e 's:v/::' "${tauto}" | sed -e 's:_beta: Beta :' -e 's:_rc: RC :' > "${OBJROOT}/autorevision.h"
+	sed -e 's:refs/heads/:branch/:' -e 's:refs/remotes/:remote/:' -e 's:branch/master:Master:' -e 's:	v:	:' -e 's:v/::' "${sauto}" | sed -e 's:_beta: Beta :' -e 's:_rc: RC :' > "${OBJROOT}/autorevision.h"
 }
 function bauto {
 	if ! ./build_tools/autorevision.sh "${tauto}"; then
