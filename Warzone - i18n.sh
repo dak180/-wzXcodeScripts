@@ -2,7 +2,7 @@
 export PATH=$PATH:/sw/bin:/opt/local/bin
 podir="../po"
 disfile="configs/LangDis"
-aresdir="build/${CONFIGURATION}/Warzone.app/Contents/Resources/"
+aresdir="${CONFIGURATION_BUILD_DIR}/Warzone.app/Contents/Resources/"
 bresdir="locale/"
 messdir="LC_MESSAGES/"
 monme="warzone2100.mo"
