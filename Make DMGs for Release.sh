@@ -1,2 +1,0 @@
-configs/mkdmgs.sh
-exit ${?}
