@@ -8,7 +8,7 @@ mWarzoneHelpLproj="${mWarzoneHelp}/en.lproj"
 
 cd "$(git rev-parse --show-toplevel 2>/dev/null)"
 mkdir -p "${mWarzoneHelpLproj}"
-
+cp -af macosx/Resources/WarzoneHelp/info.plist macosx/WarzoneHelp/Contents
 
 # asciidoc based docs
 if type -aP a2x; then
