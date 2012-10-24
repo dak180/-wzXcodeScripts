@@ -41,6 +41,7 @@ if type -aP pdflatex; then
 	grep src/qtscriptfuncs.cpp -e '//;;' | sed 's://;;::' > doc/objects.tex
 	cd doc/
 	pdflatex javascript.tex
+	pdflatex javascript.tex
 	cd ..
 	cp -af doc/javascript.pdf ${mWarzoneHelpLproj}
 else
