@@ -35,6 +35,7 @@ fi
 if type -aP pdflatex; then
 	# javascript doc
 	grep src/qtscript.cpp -e '//==' | sed 's://==::' > doc/globals.tex
+	grep src/qtscriptfuncs.cpp -e '//==' | sed 's://==::' >> doc/globals.tex
 	grep src/qtscript.cpp -e '//__' | sed 's://__::' > doc/events.tex
 	grep src/qtscript.cpp -e '//--' | sed 's://--::' > doc/functions.tex
 	grep src/qtscriptfuncs.cpp -e '//--' | sed 's://--::' >> doc/functions.tex
