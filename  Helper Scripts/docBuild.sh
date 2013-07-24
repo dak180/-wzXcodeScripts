@@ -32,6 +32,7 @@ else
 fi
 
 # LaTeX based docs
+export TEXINPUTS=${TEXINPUTS}:/sw/share/doc/python25/Doc/texinputs/
 if type -aP pdflatex; then
 	# javascript doc
 	grep src/qtscript.cpp -e '//==' | sed 's://==::' > doc/globals.tex

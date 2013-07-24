@@ -1,17 +1,24 @@
 #!/bin/bash
 
 # Config
-go_dir=`dirname ${BASH_SOURCE}`
-flist=`\ls -1 "${go_dir}" | sed -n 's:.framework$:&:p'`
+go_dir="$(dirname ${BASH_SOURCE})"
+flist="$(\ls -1 "${go_dir}" | sed -n 's:.framework$:&:p')"
 mjrver="4.0"
 olmjrver="4"
 
 
 cd "${go_dir}"
 
+if [ ! -z "$(\ls -1 "${go_dir}/moc*")" ]; then
+    mkdir -p usr/bin
+    mv moc* usr/bin/
+else
+    echo "warning: moc binary not found." >&2
+fi
+
 for Qtframe in ${flist}; do
 	cd "${Qtframe}"
-	Qtname=`basename "${Qtframe}" ".framework"`
+	Qtname="$(basename "${Qtframe}" ".framework")"
 	echo "Fixing up ${Qtname}..."
 	
 	# Put the Info.plist in the right place
@@ -31,8 +38,8 @@ for Qtframe in ${flist}; do
 	
 	# Set the names correctly
 	install_name_tool -id @rpath/${Qtframe}/Versions/${mjrver}/${Qtname} "${Qtname}"
-	install_name_tool -add_rpath @loader_path
-	install_name_tool -add_rpath @loader_path/.
+	install_name_tool -add_rpath @loader_path "${Qtname}"
+	install_name_tool -add_rpath @loader_path/. "${Qtname}"
 	if [[ ! "${Qtname}" = "QtCore" ]]; then
 		# Link everything but QtCore to QtCore
 		install_name_tool -change QtCore.framework/Versions/${olmjrver}/QtCore @rpath/QtCore.framework/Versions/${mjrver}/QtCore "${Qtname}"
