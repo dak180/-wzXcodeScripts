@@ -38,8 +38,8 @@ elif ! xcodebuild -project Warzone.xcodeproj -parallelizeTargets -target "Make D
 fi
 
 # Rename and md5
-rtag=$(echo ${rtag} | sed 's:/:_:g')
-git_sr=$(../build_tools/autorevision -f -s VCS_SHORT_HASH -o ../src/autorevision.cache)
+rtag="$(echo ${rtag} | sed -e 's:/:_:g' -e 's:^v::')"
+git_sr="$(../build_tools/autorevision -f -s VCS_SHORT_HASH -o ../src/autorevision.cache)"
 cd build/dmgout/out
 
 if [ -f "${dmg_bn}-${rtag}_[${git_sr}]${tar_dS}" ]; then
